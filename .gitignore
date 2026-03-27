@@ -40,3 +40,6 @@ logs/*.log
 # IDEs
 .vscode/
 .idea/
+
+# LLM
+GEMINI.md
