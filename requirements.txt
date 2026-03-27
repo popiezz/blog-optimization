@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic-settings
+httpx
+langdetect
+sqlalchemy
+pytest
+pytest-asyncio
+python-dotenv
