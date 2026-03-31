@@ -4,6 +4,7 @@ pydantic-settings
 httpx
 langdetect
 sqlalchemy
+aiosqlite
 pytest
 pytest-asyncio
 python-dotenv
