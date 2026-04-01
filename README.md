@@ -208,7 +208,7 @@ raise TimeoutError("SurferSEO auto-optimize timeout after 60s")
 ### Step 6 — Claude Rewrite + Metadata Generation
 
 **Module:** `api/claude_ai.py`  
-**Model:** `claude-sonnet-4-20250514`  
+**Model:** `claude-3-5-sonnet-20241022`
 **Max tokens:** 4000
 
 Claude receives all upstream context in a single structured prompt and produces the fully optimized blog plus all metadata in one JSON response.
@@ -468,7 +468,7 @@ seo-blog-automation/
 |                |                                                                            |
 | -------------- | -------------------------------------------------------------------------- |
 | Auth           | `x-api-key` header                                                         |
-| Model          | `claude-sonnet-4-20250514`                                                 |
+| Model          | `claude-3-5-sonnet-20241022`                                               |
 | Max tokens     | 4000                                                                       |
 | Prompt pattern | System prompt (SEO rules + brand voice) + User message (blog data as JSON) |
 | Output format  | JSON only — no markdown, no preamble, no trailing text                     |

@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from sqlalchemy import Column, DateTime, Integer, String, Text, Enum as SQLEnum
+from sqlalchemy import Column, DateTime, Float, Boolean, Integer, String, Text, Enum as SQLEnum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
@@ -15,6 +15,7 @@ class RunStatus(str, Enum):
     AWAITING_APPROVAL = "awaiting_approval"
     APPROVED = "approved"
     COMPLETED = "completed"
+    REJECTED = "rejected"
     FAILED = "failed"
 
 class BlogRun(Base):
@@ -29,10 +30,23 @@ class BlogRun(Base):
     # Asana tracking
     asana_task_gid = Column(String, index=True, nullable=True)
     
+    # SEO data
+    target_keyword_input = Column(String, nullable=True)
+    initial_surfer_score = Column(Float, nullable=True)
+    final_surfer_score = Column(Float, nullable=True)
+    score_delta = Column(Float, nullable=True)
+    score_delta_pct = Column(Float, nullable=True)
+    plagiarism_flagged = Column(Boolean, nullable=True)
+    plagiarism_max_similarity = Column(Float, nullable=True)
+
     # Content storage
     original_content = Column(Text, nullable=True)
     optimized_content = Column(Text, nullable=True)
     
+    # Run info
+    failure_reason = Column(Text, nullable=True)
+    duration_seconds = Column(Float, nullable=True)
+
     # Timestamps
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

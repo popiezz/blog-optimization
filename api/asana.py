@@ -13,6 +13,7 @@ async def create_asana_task(
     """
     Creates an Asana task for manual content approval.
     """
+    logger.info(f"[Article {article_id}] Creating Asana task")
     url = "https://app.asana.com/api/1.0/tasks"
     headers = {
         "Authorization": f"Bearer {settings.ASANA_ACCESS_TOKEN}",
@@ -38,10 +39,11 @@ async def create_asana_task(
         return response.json().get("data", {})
 
 
-async def get_asana_task(task_gid: str) -> Dict[str, Any]:
+async def get_asana_task(task_gid: str, article_id: str = "Unknown") -> Dict[str, Any]:
     """
     Fetches a single Asana task's details.
     """
+    logger.info(f"[Article {article_id}] Fetching Asana task {task_gid}")
     url = f"https://app.asana.com/api/1.0/tasks/{task_gid}"
     headers = {"Authorization": f"Bearer {settings.ASANA_ACCESS_TOKEN}"}
 
@@ -51,10 +53,25 @@ async def get_asana_task(task_gid: str) -> Dict[str, Any]:
         return response.json().get("data", {})
 
 
-async def update_asana_task(task_gid: str, data: Dict[str, Any]) -> Dict[str, Any]:
+async def get_asana_story(story_gid: str, article_id: str = "Unknown") -> Dict[str, Any]:
+    """
+    Fetches a single Asana story's details.
+    """
+    logger.info(f"[Article {article_id}] Fetching Asana story {story_gid}")
+    url = f"https://app.asana.com/api/1.0/stories/{story_gid}"
+    headers = {"Authorization": f"Bearer {settings.ASANA_ACCESS_TOKEN}"}
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, headers=headers)
+        response.raise_for_status()
+        return response.json().get("data", {})
+
+
+async def update_asana_task(task_gid: str, data: Dict[str, Any], article_id: str = "Unknown") -> Dict[str, Any]:
     """
     Updates an existing Asana task.
     """
+    logger.info(f"[Article {article_id}] Updating Asana task {task_gid}")
     url = f"https://app.asana.com/api/1.0/tasks/{task_gid}"
     headers = {
         "Authorization": f"Bearer {settings.ASANA_ACCESS_TOKEN}",

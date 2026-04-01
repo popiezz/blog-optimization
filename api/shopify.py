@@ -11,6 +11,7 @@ async def get_shopify_article(article_id: str) -> Dict[str, Any]:
     """
     Fetches a single article from Shopify by ID.
     """
+    logger.info(f"[Article {article_id}] Fetching from Shopify")
     url = f"https://{settings.SHOPIFY_STORE_URL}/admin/api/2024-01/articles/{article_id}.json"
     headers = {"X-Shopify-Access-Token": settings.SHOPIFY_ACCESS_TOKEN}
 
@@ -20,10 +21,13 @@ async def get_shopify_article(article_id: str) -> Dict[str, Any]:
         return response.json().get("article", {})
 
 
-async def get_article_metafields(article_id: str) -> Dict[str, Any]:
+from typing import Any, Dict, List, Optional
+
+async def get_article_metafields(article_id: str) -> List[Dict[str, Any]]:
     """
     Fetches all metafields for a given article.
     """
+    logger.info(f"[Article {article_id}] Fetching metafields from Shopify")
     url = f"https://{settings.SHOPIFY_STORE_URL}/admin/api/2024-01/articles/{article_id}/metafields.json"
     headers = {"X-Shopify-Access-Token": settings.SHOPIFY_ACCESS_TOKEN}
 
@@ -39,6 +43,7 @@ async def update_shopify_article(
     """
     Updates an article's content and metadata in Shopify.
     """
+    logger.info(f"[Article {article_id}] Updating content/metadata in Shopify")
     url = f"https://{settings.SHOPIFY_STORE_URL}/admin/api/2024-01/articles/{article_id}.json"
     headers = {
         "X-Shopify-Access-Token": settings.SHOPIFY_ACCESS_TOKEN,
@@ -63,6 +68,7 @@ async def update_article_metafield(
     """
     Updates or creates a metafield for a specific article.
     """
+    logger.info(f"[Article {article_id}] Updating metafield '{namespace}.{key}' in Shopify")
     url = f"https://{settings.SHOPIFY_STORE_URL}/admin/api/2024-01/articles/{article_id}/metafields.json"
     headers = {
         "X-Shopify-Access-Token": settings.SHOPIFY_ACCESS_TOKEN,
