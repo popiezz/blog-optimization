@@ -61,6 +61,14 @@ async def handle_shopify_webhook(payload: bytes, hmac_header: str):
         logger.info(f"Article {article_id} is not in 'draft' status (status: {status}). Skipping.")
         return
 
+    # Optional blog ID filter — ignore articles from other blog sections
+    if settings.SHOPIFY_BLOG_ID and blog_id != settings.SHOPIFY_BLOG_ID:
+        logger.info(
+            f"Article {article_id} belongs to blog {blog_id}, "
+            f"not the configured blog {settings.SHOPIFY_BLOG_ID}. Skipping."
+        )
+        return
+
     # Check idempotency: Have we already processed this article_id?
     async with AsyncSessionLocal() as session:
         result = await session.execute(select(BlogRun).where(BlogRun.article_id == article_id))

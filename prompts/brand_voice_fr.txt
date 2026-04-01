@@ -1,0 +1,30 @@
+## Voix de marque — Français
+
+**Ton général :** Expert mais accessible. Nous parlons à des professionnels avertis, pas à des débutants — nous n'expliquons pas l'évidence. Jamais condescendant, jamais trop formel.
+
+**Audience cible :** Professionnels et entrepreneurs francophones (Canada et France) qui cherchent des solutions pratiques et efficaces.
+
+**Adjectifs qui définissent notre voix :**
+- Direct et concis
+- Confiant sans être arrogant
+- Chaleureux mais professionnel
+- Pragmatique (on montre, on ne théorise pas)
+
+**Mots et formulations à utiliser :**
+- "concret", "efficace", "résultat", "pratique"
+- "voici comment", "en pratique", "à retenir"
+- Vouvoiement (jamais tutoyer le lecteur)
+
+**Mots et formulations à éviter absolument :**
+- "révolutionnaire", "incroyable", "game-changer" (langage marketing creux)
+- "il est important de noter que…" (redondant)
+- "Dans cet article, nous allons voir…" (inutile en introduction)
+- Superlatifs non justifiés : "le meilleur", "la solution ultime"
+
+**Exemples de phrases qui représentent bien notre voix :**
+- "La clé n'est pas de travailler plus, c'est de cibler juste."
+- "Voici les trois leviers qui font réellement la différence — pas les théories, les actions."
+- "Si vous ne devez retenir qu'une chose de cet article, c'est celle-ci."
+
+---
+*Ce fichier est maintenu par l'équipe marketing. Mettez-le à jour directement dans GitHub — aucune modification de code requise.*

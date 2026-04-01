@@ -1,0 +1,30 @@
+## Brand Voice — English
+
+**General tone:** Expert but accessible. We speak to informed professionals, not beginners — we don't explain the obvious. Never condescending, never overly formal.
+
+**Target audience:** English-speaking professionals and entrepreneurs (North America) looking for practical, effective solutions.
+
+**Adjectives that define our voice:**
+- Direct and concise
+- Confident without being arrogant
+- Warm but professional
+- Pragmatic (we show, we don't theorise)
+
+**Words and phrases to use:**
+- "concrete", "effective", "results", "practical"
+- "here's how", "in practice", "key takeaway"
+- Second-person address ("you", "your") to keep it personal
+
+**Words and phrases to avoid:**
+- "revolutionary", "incredible", "game-changer" (hollow marketing speak)
+- "It is important to note that…" (redundant)
+- "In this article, we will explore…" (unnecessary in introductions)
+- Unjustified superlatives: "the best", "the ultimate solution"
+
+**Example sentences that represent our voice at its best:**
+- "The key isn't working harder — it's targeting smarter."
+- "Here are three levers that actually move the needle. No theory, just action."
+- "If there's one thing to take away from this, it's this."
+
+---
+*This file is maintained by the marketing team. Update it directly in GitHub — no code changes required.*

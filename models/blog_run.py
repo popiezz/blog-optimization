@@ -2,12 +2,14 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from sqlalchemy import Column, DateTime, Integer, String, Text, Enum as SQLEnum
+from sqlalchemy import Boolean, Column, DateTime, Float, Integer, String, Text
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
+
 
 class RunStatus(str, Enum):
     PENDING = "pending"
@@ -15,41 +17,66 @@ class RunStatus(str, Enum):
     AWAITING_APPROVAL = "awaiting_approval"
     APPROVED = "approved"
     COMPLETED = "completed"
+    REJECTED = "rejected"
     FAILED = "failed"
+
 
 class BlogRun(Base):
     __tablename__ = "blog_runs"
 
     id = Column(Integer, primary_key=True, index=True)
-    article_id = Column(String, index=True, unique=True)
-    blog_id = Column(String)
-    title = Column(String)
-    status = Column(SQLEnum(RunStatus), default=RunStatus.PENDING)
-    
-    # Asana tracking
-    asana_task_gid = Column(String, index=True, nullable=True)
-    
+    article_id = Column(String, index=True, unique=True, nullable=False)
+    blog_id = Column(String, nullable=True)
+    title = Column(String, nullable=True)
+    language = Column(String(2), nullable=True)
+    status = Column(SQLEnum(RunStatus), default=RunStatus.PENDING, nullable=False)
+
+    # Keyword data
+    target_keyword_input = Column(String, nullable=True)   # Raw value from metafield
+    main_keyword = Column(String, nullable=True)           # SEMrush-validated keyword
+
+    # Surfer scores
+    initial_surfer_score = Column(Float, nullable=True)
+    final_surfer_score = Column(Float, nullable=True)
+    score_delta = Column(Float, nullable=True)
+    score_delta_pct = Column(Float, nullable=True)
+
+    # Plagiarism
+    plagiarism_flagged = Column(Boolean, nullable=True)
+    plagiarism_max_similarity = Column(Float, nullable=True)
+
     # Content storage
     original_content = Column(Text, nullable=True)
-    optimized_content = Column(Text, nullable=True)
-    
-    # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    optimized_content = Column(Text, nullable=True)         # Optimized body_html
+    optimized_metadata = Column(Text, nullable=True)        # JSON blob of Claude output metadata
 
-    def __repr__(self):
+    # Failure
+    failure_reason = Column(Text, nullable=True)
+
+    # External references
+    asana_task_gid = Column(String, index=True, nullable=True)
+    surfer_doc_id = Column(String, nullable=True)
+
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    completed_at = Column(DateTime, nullable=True)
+    duration_seconds = Column(Float, nullable=True)
+
+    def __repr__(self) -> str:
         return f"<BlogRun(article_id='{self.article_id}', status='{self.status}')>"
 
-# Database setup (using SQLite for now as per GEMINI.md)
+
+# Database setup — SQLite, sufficient for 1–3 blogs/week
 DATABASE_URL = "sqlite+aiosqlite:///./seo_blog.db"
 engine = create_async_engine(DATABASE_URL, echo=False)
-AsyncSessionLocal = sessionmaker(
-    engine, class_=AsyncSession, expire_on_commit=False
-)
+AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
-async def init_db():
+
+async def init_db() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
 
 async def get_db():
     async with AsyncSessionLocal() as session:
