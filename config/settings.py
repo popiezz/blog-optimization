@@ -41,6 +41,9 @@ class Settings(BaseSettings):
     # If unset, all draft article creates will be processed.
     SHOPIFY_BLOG_ID: Optional[str] = None
 
+    # Database
+    DATABASE_URL: str = "sqlite+aiosqlite:///./seo_blog.db"
+
     # App
     APP_BASE_URL: str
     SECRET_KEY: str

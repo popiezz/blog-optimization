@@ -8,6 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from config.settings import settings
+
 Base = declarative_base()
 
 
@@ -67,8 +69,16 @@ class BlogRun(Base):
         return f"<BlogRun(article_id='{self.article_id}', status='{self.status}')>"
 
 
-# Database setup — SQLite, sufficient for 1–3 blogs/week
-DATABASE_URL = "sqlite+aiosqlite:///./seo_blog.db"
+# Normalize Railway's postgres:// scheme to the asyncpg async driver scheme
+def _resolve_db_url(url: str) -> str:
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+asyncpg://", 1)
+    if url.startswith("postgresql://") and "+asyncpg" not in url:
+        return url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    return url
+
+
+DATABASE_URL = _resolve_db_url(settings.DATABASE_URL)
 engine = create_async_engine(DATABASE_URL, echo=False)
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
